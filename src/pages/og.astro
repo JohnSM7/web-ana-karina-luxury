@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import { salon } from '../data/salon';
+import bg from '../../public/images/salon-03.jpg';
+export const prerender = true;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG preview · regenerable a 1200x630</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter:wght@400;500;600;700&family=Italianno&display=swap" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { width: 1200px; height: 630px; overflow: hidden; background: #0F0710; font-family: Inter, system-ui, sans-serif; color: #FFF5F7; }
+      .root { position: relative; width: 1200px; height: 630px; display: grid; grid-template-columns: 56% 44%; overflow: hidden; }
+      .left { padding: 64px 56px; display: flex; flex-direction: column; justify-content: space-between; position: relative; background: linear-gradient(135deg, #0F0710 0%, #1B0E14 60%, #2a1320 100%); }
+      .left::before { content:""; position: absolute; top: -120px; left: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(233,30,99,0.5) 0%, transparent 70%); filter: blur(40px); }
+      .left::after { content:""; position: absolute; bottom: -160px; right: 30%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(212,165,116,0.35) 0%, transparent 70%); filter: blur(50px); }
+      .brand { display: flex; align-items: center; gap: 14px; position: relative; z-index: 2; }
+      .brand .ak { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #FF6B8A, #E91E63 50%, #B8174D); display: grid; place-items: center; font-family: Georgia, serif; font-style: italic; font-weight: 700; font-size: 24px; color: #FFF5F7; box-shadow: 0 8px 24px rgba(233,30,99,0.4); }
+      .brand .label { display: flex; flex-direction: column; line-height: 1.1; }
+      .brand .label .nm { font-family: Fraunces, serif; font-style: italic; font-size: 22px; }
+      .brand .label .sub { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #D4A574; margin-top: 4px; }
+
+      .headline { position: relative; z-index: 2; }
+      .headline .eyebrow { font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase; color: #D4A574; margin-bottom: 16px; }
+      .headline h1 { font-family: Fraunces, serif; font-weight: 900; font-size: 92px; line-height: 0.92; letter-spacing: -0.03em; margin-bottom: 18px; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; background: linear-gradient(135deg, #FFB1C8 0%, #E91E63 50%, #D4A574 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .headline h1 em { font-style: italic; font-weight: 200; color: #FAEEF1; -webkit-text-fill-color: #FAEEF1; display: block; font-size: 48px; line-height: 1; margin-bottom: 6px; background: none; }
+      .headline .script { font-family: Italianno, cursive; color: #FFB1C8; font-size: 56px; line-height: 0.9; }
+
+      .footer { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; font-size: 16px; color: #FAEEF1; }
+      .footer .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,245,247,0.08); border: 1px solid rgba(212,165,116,0.3); backdrop-filter: blur(8px); }
+      .footer .chip .star { color: #D4A574; }
+      .footer .chip strong { font-weight: 600; }
+      .footer .pin { color: #FFB1C8; }
+
+      .right { position: relative; overflow: hidden; }
+      .right img { width: 100%; height: 100%; object-fit: cover; }
+      .right::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0F0710 0%, transparent 30%, transparent 100%); z-index: 2; }
+      .right::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(233,30,99,0.15), transparent 50%, rgba(15,7,16,0.4)); z-index: 2; }
+
+      .pin-badge { position: absolute; top: 40px; right: 40px; z-index: 5; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: linear-gradient(135deg, #FF6B8A, #E91E63 60%, #B8174D); color: #FFF5F7; font-size: 13px; font-weight: 600; box-shadow: 0 12px 30px rgba(233,30,99,0.4); transform: rotate(2deg); }
+    </style>
+  </head>
+  <body>
+    <div class="root">
+      <div class="left">
+        <div class="brand">
+          <div class="ak">AK</div>
+          <div class="label">
+            <span class="nm">Ana Karina</span>
+            <span class="sub">Luxury Beauty Salon</span>
+          </div>
+        </div>
+
+        <div class="headline">
+          <p class="eyebrow">— Villaverde · Madrid</p>
+          <h1>
+            <em>La belleza</em>
+            que se siente.
+          </h1>
+          <p class="script">como en casa.</p>
+        </div>
+
+        <div class="footer">
+          <span class="chip"><span class="star">★</span> <strong>4.7</strong> · 118+ reseñas</span>
+          <span class="chip">Pelo · Uñas · Cejas · Facial</span>
+          <span class="chip">📞 606 003 255</span>
+        </div>
+      </div>
+
+      <div class="right">
+        <Image src={bg} alt="Interior del salón Ana Karina" widths={[600, 800, 1000]} sizes="600px" loading="eager" />
+        <div class="pin-badge">✨ Top rated · Villaverde</div>
+      </div>
+    </div>
+  </body>
+</html>

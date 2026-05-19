@@ -11,8 +11,8 @@ interface Props {
 
 const {
   title = `${salon.nombre} · Salón de Belleza en Villaverde, Madrid`,
-  description = `Peluquería, uñas, estética, cejas, pestañas y maquillaje en ${salon.direccion.barrio}, Madrid. 4.7★ con ${salon.totalResenas}+ reseñas. Reserva tu cita.`,
-  image = '/images/salon-01.jpg',
+  description = `Peluquería, uñas, estética, cejas, pestañas y maquillaje en ${salon.direccion.barrio}, Madrid. ${salon.rating}★ con ${salon.totalResenas}+ reseñas. Reserva tu cita por WhatsApp.`,
+  image = '/og-image.jpg',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -104,27 +104,37 @@ const jsonLd = {
     <meta name="geo.position" content={`${salon.coordenadas.lat};${salon.coordenadas.lng}`} />
     <meta name="ICBM" content={`${salon.coordenadas.lat}, ${salon.coordenadas.lng}`} />
 
-    <!-- Open Graph -->
+    <!-- Open Graph (link preview en WhatsApp, Facebook, Telegram, iMessage, Discord) -->
     <meta property="og:type" content="business.business" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content={salon.nombre} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:image:alt" content={`${salon.nombre} — ${salon.direccion.barrio}, ${salon.direccion.ciudad}`} />
     <meta property="business:contact_data:street_address" content={salon.direccion.calle} />
     <meta property="business:contact_data:locality" content={salon.direccion.ciudad} />
     <meta property="business:contact_data:postal_code" content={salon.direccion.cp} />
     <meta property="business:contact_data:country_name" content={salon.direccion.pais} />
     <meta property="business:contact_data:phone_number" content={salon.telefono} />
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${salon.nombre} — Salón de belleza en ${salon.direccion.barrio}, Madrid`} />
+
+    <!-- WhatsApp / iMessage (refuerzo) -->
+    <meta itemprop="name" content={title} />
+    <meta itemprop="description" content={description} />
+    <meta itemprop="image" content={ogImage} />
+    <link rel="image_src" href={ogImage} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
