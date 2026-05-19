@@ -1,0 +1,74 @@
+---
+import { salon } from '../data/salon';
+const msg = encodeURIComponent('Hola Ana Karina, me gustaría reservar una cita 💖');
+const href = `https://wa.me/${salon.whatsapp}?text=${msg}`;
+---
+<a
+  href={href}
+  target="_blank"
+  rel="noopener"
+  aria-label="Reservar por WhatsApp"
+  class="group fixed z-50 bottom-5 right-5 sm:bottom-6 sm:right-6 flex items-center gap-2"
+  style="padding-bottom: env(safe-area-inset-bottom);"
+  id="wa-float"
+>
+  <!-- Tooltip desktop -->
+  <span class="hidden md:inline-flex items-center gap-1.5 rounded-full bg-blush/95 backdrop-blur-md border border-rose-soft/40 text-wine text-xs font-medium px-3.5 py-2 shadow-soft opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none whitespace-nowrap">
+    Reserva en 1 minuto
+    <span class="text-rose">→</span>
+  </span>
+
+  <!-- Botón principal -->
+  <span class="relative grid place-items-center w-14 h-14 sm:w-16 sm:h-16 rounded-full gradient-rose text-blush shadow-luxury group-hover:scale-110 transition-transform duration-300">
+    <!-- Pulse halo -->
+    <span class="absolute inset-0 rounded-full bg-rose opacity-60 animate-[wa-ping_2.4s_cubic-bezier(0,0,0.2,1)_infinite] -z-10"></span>
+    <span class="absolute inset-0 rounded-full bg-rose-soft opacity-40 animate-[wa-ping_2.4s_cubic-bezier(0,0,0.2,1)_infinite_0.6s] -z-10"></span>
+
+    <!-- Icono WhatsApp -->
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="sm:w-8 sm:h-8 drop-shadow-sm">
+      <path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5L8.8 7.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.7 1.2 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
+      <path d="M20 4a10 10 0 0 0-15.6 12L3 21l5.1-1.3A10 10 0 1 0 20 4Zm-8 17a9 9 0 0 1-4.5-1.2l-.3-.2-3.1.8.8-3-.2-.3A9 9 0 1 1 12 21Z"/>
+    </svg>
+
+    <!-- Badge "1" -->
+    <span class="absolute -top-1 -right-1 grid place-items-center w-5 h-5 rounded-full bg-blush text-rose-deep text-[10px] font-bold border-2 border-rose shadow-md">1</span>
+  </span>
+</a>
+
+<style>
+  @keyframes wa-ping {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    80%, 100% { transform: scale(2); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #wa-float .animate-\[wa-ping_2\.4s_cubic-bezier\(0\,0\,0\.2\,1\)_infinite\],
+    #wa-float .animate-\[wa-ping_2\.4s_cubic-bezier\(0\,0\,0\.2\,1\)_infinite_0\.6s\] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Oculta el botón cuando el footer está visible para no tapar el "Powered by"
+  const btn = document.getElementById('wa-float');
+  const footer = document.querySelector('footer');
+  if (btn && footer) {
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          btn.style.opacity = '0';
+          btn.style.transform = 'translateY(20px) scale(0.85)';
+          btn.style.pointerEvents = 'none';
+        } else {
+          btn.style.opacity = '1';
+          btn.style.transform = '';
+          btn.style.pointerEvents = '';
+        }
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(footer);
+    btn.style.transition = 'opacity 300ms ease, transform 300ms ease';
+  }
+</script>
