@@ -76,7 +76,21 @@ const year = new Date().getFullYear();
   <div class="border-t border-pearl/10 py-6">
     <div class="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-pearl/40">
       <p>© {year} {salon.nombre}. Todos los derechos reservados.</p>
-      <p>Diseñado con <span class="text-rose">♥</span> en Madrid.</p>
+      <p class="flex items-center gap-1.5">
+        <span>Powered by</span>
+        <a
+          href="https://www.tanesolutions.com/"
+          target="_blank"
+          rel="noopener"
+          class="group inline-flex items-center gap-1 text-pearl/70 hover:text-rose-soft transition-colors"
+          aria-label="Tane Solutions — abre en pestaña nueva"
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="opacity-60 group-hover:opacity-100">
+            <path d="M12 2 14.39 9.61 22 12l-7.61 2.39L12 22l-2.39-7.61L2 12l7.61-2.39L12 2Z"/>
+          </svg>
+          <span class="font-medium tracking-wide">Tane Solutions</span>
+        </a>
+      </p>
     </div>
   </div>
 </footer>
