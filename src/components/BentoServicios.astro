@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import { servicios } from '../data/salon';
+import featuredImg from '../../public/images/work-botox-chocolate.jpg';
+
+const iconPaths: Record<string, string> = {
+  scissors: 'M14.121 14.121 19 19m-7-7 7-7m-7 7-2.879 2.879M12 12 9.121 9.121m0 5.758a3 3 0 1 0-4.243 4.243 3 3 0 0 0 4.243-4.243Zm0-5.758a3 3 0 1 0-4.243-4.243 3 3 0 0 0 4.243 4.243Z',
+  sparkle: 'M12 2 14.39 9.61 22 12l-7.61 2.39L12 22l-2.39-7.61L2 12l7.61-2.39L12 2Z',
+  eye: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+  lash: 'M2 12c5-6 15-6 20 0 M4 14l1 3 M8 16l.5 3.5 M12 17l0 4 M16 16l-.5 3.5 M20 14l-1 3',
+  drop: 'M12 2.5c-2.5 4-7 9-7 13a7 7 0 0 0 14 0c0-4-4.5-9-7-13Z',
+  wax: 'M5 8h14l-1.5 12a2 2 0 0 1-2 1.8h-7a2 2 0 0 1-2-1.8L5 8Z M9 8V5a3 3 0 0 1 6 0v3',
+  lipstick: 'M9 3h6v6l-1 1H10l-1-1V3Z M8 11h8v8a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-8Z',
+};
+---
+<section id="servicios" class="relative py-24 lg:py-32 bg-blush">
+  <div class="mx-auto max-w-7xl px-6">
+    <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 lg:mb-16">
+      <div class="max-w-2xl reveal-on-scroll">
+        <p class="text-xs uppercase tracking-[0.4em] text-rose-deep/70 mb-4">— Servicios</p>
+        <h2 class="font-display text-balance text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.05] tracking-tight text-wine">
+          Todo lo que necesitas, <span class="italic font-light">bajo un mismo techo</span>
+        </h2>
+      </div>
+      <p class="lg:max-w-sm text-wine/60 text-pretty reveal-on-scroll">
+        Cada disciplina con su especialista. Cero compromisos, cien por cien atención al detalle.
+      </p>
+    </header>
+
+    <!-- Bento Grid asimétrico -->
+    <div class="grid grid-cols-2 lg:grid-cols-6 auto-rows-[180px] sm:auto-rows-[220px] lg:auto-rows-[230px] gap-3 sm:gap-4" id="bento-grid">
+      {servicios.map((s, i) => {
+        const isFeatured = s.id === 'pelo';
+        return (
+          <article
+            class={`bento-card group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-rose-soft/30 bg-gradient-to-br from-pearl to-blush p-4 sm:p-6 lg:p-7 transition-all duration-500 hover:shadow-luxury hover:-translate-y-1 reveal-on-scroll ${s.span ?? ''}`}
+            style={`transition-delay: ${i * 60}ms`}
+            data-accent={s.accent}
+          >
+            <!-- Cursor-tracked radial glow -->
+            <div class="cursor-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
+
+            <!-- Featured: full background image for the largest card -->
+            {isFeatured && (
+              <div class="absolute inset-0 -z-0">
+                <Image
+                  src={featuredImg}
+                  alt=""
+                  class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000"
+                  widths={[480, 720, 960]}
+                  sizes="(max-width:1024px) 100vw, 50vw"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-tr from-wine/85 via-wine/50 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-wine/90 via-transparent to-transparent"></div>
+              </div>
+            )}
+
+            <!-- Decorative blob (only on non-featured) -->
+            {!isFeatured && (
+              <div class={`absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-80 ${s.accent === 'gold' ? 'bg-gold/20' : 'bg-rose-soft/45'}`}></div>
+            )}
+
+            <div class="relative h-full flex flex-col justify-between z-10">
+              <div class="flex items-start justify-between gap-2">
+                <div class={`grid place-items-center w-10 sm:w-12 h-10 sm:h-12 rounded-xl sm:rounded-2xl ${s.accent === 'gold' ? 'gradient-gold' : 'gradient-rose'} text-blush shadow-md shrink-0`}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="sm:w-[22px] sm:h-[22px]">
+                    <path d={iconPaths[s.icon]}/>
+                  </svg>
+                </div>
+                <span class={`text-[9px] sm:text-[10px] uppercase tracking-widest text-right ${isFeatured ? 'text-pearl/70' : 'text-wine/40'}`}>
+                  desde <span class={`font-medium ${isFeatured ? 'text-blush' : 'text-wine'}`}>{s.desde}€</span>
+                </span>
+              </div>
+
+              <div>
+                <h3 class={`font-display text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 ${isFeatured ? 'text-blush' : 'text-wine'}`}>
+                  {s.titulo}
+                </h3>
+                <p class={`text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] mb-2 sm:mb-3 ${isFeatured ? 'text-rose-soft' : 'text-rose-deep/70'}`}>{s.sub}</p>
+                <p class={`text-xs sm:text-sm text-pretty leading-relaxed line-clamp-2 sm:line-clamp-3 lg:line-clamp-none ${isFeatured ? 'text-pearl/85' : 'text-wine/65'}`}>{s.desc}</p>
+
+                {isFeatured && (
+                  <div class="mt-4 inline-flex items-center gap-2 text-xs text-blush group-hover:gap-3 transition-all">
+                    <span class="font-script text-xl text-rose-soft normal-case">incluye Botox Capilar</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Cursor-tracked radial gradient glow on bento cards
+  const cards = document.querySelectorAll<HTMLElement>('.bento-card');
+  cards.forEach((card) => {
+    const glow = card.querySelector<HTMLElement>('.cursor-glow');
+    const accent = card.dataset.accent === 'gold' ? '212,165,116' : '233,30,99';
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      if (glow) {
+        glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(${accent}, 0.35) 0%, transparent 50%)`;
+      }
+    });
+  });
+</script>

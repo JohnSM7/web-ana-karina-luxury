@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Manifesto from '../components/Manifesto.astro';
+import BentoServicios from '../components/BentoServicios.astro';
+import AntesDespues from '../components/AntesDespues.astro';
+import Galeria from '../components/Galeria.astro';
+import Equipo from '../components/Equipo.astro';
+import Precios from '../components/Precios.astro';
+import Resenas from '../components/Resenas.astro';
+import Mapa from '../components/Mapa.astro';
+import Cta from '../components/Cta.astro';
+import Footer from '../components/Footer.astro';
+import Ornamento from '../components/Ornamento.astro';
+---
+<Base>
+  <Nav />
+  <main id="contenido">
+    <Hero />
+    <Manifesto />
+    <Ornamento variant="gold" />
+    <BentoServicios />
+    <AntesDespues />
+    <Ornamento variant="rose" />
+    <Galeria />
+    <Equipo />
+    <Precios />
+    <Resenas />
+    <Mapa />
+    <Cta />
+  </main>
+  <Footer />
+</Base>

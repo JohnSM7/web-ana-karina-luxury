@@ -1,0 +1,61 @@
+---
+import { precios, salon } from '../data/salon';
+---
+<section id="precios" class="relative py-20 sm:py-24 lg:py-32 bg-onyx text-blush overflow-hidden">
+  <!-- Decorative gold flares -->
+  <div class="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-gold/10 blur-[150px]"></div>
+  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-rose/15 blur-[140px]"></div>
+
+  <div class="relative mx-auto max-w-6xl px-5 sm:px-6">
+    <header class="text-center mb-16 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-[0.4em] text-gold mb-4">— Tarifas</p>
+      <h2 class="font-display text-balance text-[clamp(2.25rem,4.5vw,4rem)] leading-[1.05] tracking-tight">
+        Precios <span class="italic font-light gradient-text-gold">honestos</span>,
+        <br class="hidden sm:block" />
+        resultados <span class="font-script text-[1.3em] text-rose-soft not-italic">extraordinarios</span>
+      </h2>
+      <p class="mt-6 text-pearl/60 text-sm max-w-xl mx-auto">
+        Sin sorpresas. Si una técnica requiere más tiempo o producto, te lo decimos antes de empezar.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {precios.map((cat, i) => (
+        <div
+          class="group relative rounded-2xl sm:rounded-3xl border border-gold/20 bg-gradient-to-br from-wine/40 to-onyx p-6 sm:p-8 backdrop-blur reveal-on-scroll hover:border-gold/50 transition-colors"
+          style={`transition-delay: ${i * 100}ms`}
+        >
+          <h3 class="font-display text-xl sm:text-2xl text-blush mb-1">{cat.categoria}</h3>
+          <div class="h-px w-12 bg-gradient-to-r from-gold to-transparent mb-4 sm:mb-6"></div>
+
+          <ul class="space-y-2.5 sm:space-y-3">
+            {cat.items.map((item) => (
+              <li class="flex items-baseline gap-2 sm:gap-3 group/item">
+                <span class="text-pearl/85 text-[13px] sm:text-sm leading-snug">{item.servicio}</span>
+                <span class="flex-1 mx-1 border-b border-dotted border-pearl/15 self-end mb-1.5 min-w-[20px]"></span>
+                <span class="font-display text-gold text-sm sm:text-base tracking-tight shrink-0 whitespace-nowrap">{item.precio}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-center text-pearl/50 text-xs mt-12 max-w-2xl mx-auto">
+      Precios orientativos. La tarifa final puede variar según largo de cabello, técnica aplicada o producto utilizado.
+      Te confirmamos siempre el importe antes de comenzar.
+    </p>
+
+    <div class="flex justify-center mt-10">
+      <a
+        href={`https://wa.me/${salon.whatsapp}?text=Hola%2C%20me%20gustar%C3%ADa%20consultar%20una%20tarifa`}
+        target="_blank"
+        rel="noopener"
+        class="btn-magnetic inline-flex items-center gap-3 rounded-full gradient-rose text-blush px-7 py-3.5 font-medium shadow-luxury"
+      >
+        Consultar una tarifa
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</section>

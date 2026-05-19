@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import salon1 from '../../public/images/salon-01.jpg';
+import salon2 from '../../public/images/salon-02.jpg';
+import salon3 from '../../public/images/salon-03.jpg';
+import work1 from '../../public/images/work-botox-chocolate.jpg';
+import work2 from '../../public/images/work-botox-capilar-01.jpg';
+import work4 from '../../public/images/work-treatment-01.jpg';
+
+const photos = [
+  { src: salon3, alt: 'Sala principal de peluquería con sillones color crema y espejos plata', col: 'lg:col-span-2 lg:row-span-2', label: 'El Salón', caption: 'Sala principal' },
+  { src: salon2, alt: 'Mural floral con neón Nails en sala de uñas', col: 'lg:col-span-1 lg:row-span-1', label: 'Nails Room', caption: 'Mural firmado' },
+  { src: work1, alt: 'Resultado de tratamiento Botox de Chocolate capilar', col: 'lg:col-span-1 lg:row-span-1', label: 'Botox Chocolate', caption: 'Trabajo real' },
+  { src: salon1, alt: 'Cabina de tratamientos faciales y estética', col: 'lg:col-span-1 lg:row-span-2', label: 'Estética', caption: 'Cabina rosa' },
+  { src: work2, alt: 'Tratamiento de botox capilar — hidratación y brillo', col: 'lg:col-span-1 lg:row-span-1', label: 'Hidratación', caption: 'Brillo total' },
+  { src: work4, alt: 'Resultado de tratamiento capilar', col: 'lg:col-span-2 lg:row-span-1', label: 'Resultados', caption: 'En cliente' },
+];
+---
+<section id="galeria" class="relative py-24 lg:py-32 bg-gradient-to-b from-blush via-pearl to-blush overflow-hidden">
+  <!-- Decorative giant script -->
+  <span class="absolute top-20 -left-10 font-script text-[clamp(8rem,18vw,16rem)] leading-none text-rose-soft/15 select-none pointer-events-none rotate-[-6deg]" aria-hidden="true">galería</span>
+
+  <div class="relative mx-auto max-w-7xl px-6">
+    <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+      <div class="max-w-2xl reveal-on-scroll">
+        <p class="text-xs uppercase tracking-[0.4em] text-rose-deep/70 mb-4">— Galería</p>
+        <h2 class="font-display text-balance text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.05] tracking-tight text-wine">
+          El salón en <span class="italic font-light gradient-text-luxe">fotos reales</span>
+        </h2>
+      </div>
+      <p class="lg:max-w-sm text-wine/60 text-pretty reveal-on-scroll">
+        Sin filtros, sin renders. Nuestras instalaciones y nuestros resultados, tal cual.
+      </p>
+    </header>
+
+    <!-- Editorial masonry -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 auto-rows-[140px] sm:auto-rows-[200px] lg:auto-rows-[220px] gap-2 sm:gap-3 lg:gap-4">
+      {photos.map((p, i) => (
+        <figure
+          class={`group relative overflow-hidden rounded-2xl bg-wine/5 reveal-on-scroll ${p.col}`}
+          style={`transition-delay: ${i * 80}ms`}
+        >
+          <Image
+            src={p.src}
+            alt={p.alt}
+            class="w-full h-full object-cover scroll-parallax-slow group-hover:scale-110 transition-transform duration-1000"
+            widths={[300, 600, 900, 1200]}
+            sizes="(max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
+          />
+          <!-- Gradient veil -->
+          <div class="absolute inset-0 bg-gradient-to-t from-wine/85 via-wine/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Number index (editorial style) -->
+          <span class="absolute top-3 left-3 text-[10px] font-mono text-blush/60 mix-blend-difference">
+            №&nbsp;{String(i + 1).padStart(2, '0')}
+          </span>
+
+          <!-- Hover caption -->
+          <figcaption class="absolute bottom-3 left-3 right-3 text-blush translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <p class="font-display text-lg leading-tight">{p.label}</p>
+            <p class="text-[10px] uppercase tracking-[0.25em] text-blush/70 mt-1">{p.caption}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="text-center text-xs uppercase tracking-[0.3em] text-wine/40 mt-10">
+      más en
+      <a href="https://www.instagram.com/ana_karina_salon/" target="_blank" rel="noopener" class="text-rose hover:text-rose-deep transition-colors ml-1">@ana_karina_salon</a>
+    </p>
+  </div>
+</section>

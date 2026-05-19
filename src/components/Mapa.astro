@@ -1,0 +1,201 @@
+---
+import { salon } from '../data/salon';
+---
+<section id="localizacion" class="relative py-24 lg:py-32 bg-gradient-to-b from-blush via-pearl to-blush overflow-hidden">
+  <div class="mx-auto max-w-7xl px-6">
+    <header class="text-center max-w-3xl mx-auto mb-12 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-[0.4em] text-rose-deep/70 mb-4">— Encuéntranos</p>
+      <h2 class="font-display text-balance text-[clamp(2.25rem,4.5vw,4rem)] leading-[1.05] tracking-tight text-wine">
+        En el corazón de <span class="italic font-light gradient-text-luxe">Villaverde</span>
+      </h2>
+      <p class="mt-6 text-wine/60 text-pretty">
+        A 5 minutos andando del metro {salon.metro}. Atendemos en español y mandarín.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
+      <!-- Map -->
+      <div class="lg:col-span-3 relative rounded-2xl sm:rounded-3xl overflow-hidden border border-rose-soft/30 shadow-luxury min-h-[320px] sm:min-h-[440px] reveal-on-scroll">
+        <!-- Loading skeleton -->
+        <div id="ak-map-skeleton" class="absolute inset-0 grid place-items-center bg-gradient-to-br from-rose-soft/20 via-pearl to-blush">
+          <div class="flex flex-col items-center gap-3 text-rose-deep/60">
+            <div class="w-10 h-10 rounded-full border-2 border-rose-soft border-t-rose animate-spin"></div>
+            <p class="text-xs uppercase tracking-[0.3em]">Cargando mapa…</p>
+          </div>
+        </div>
+        <div id="ak-map" class="absolute inset-0" aria-label="Mapa de ubicación del salón"></div>
+      </div>
+
+      <!-- Info card -->
+      <aside class="lg:col-span-2 flex flex-col gap-4">
+        <div class="rounded-3xl border border-rose-soft/30 bg-blush p-7 shadow-soft reveal-on-scroll">
+          <p class="text-xs uppercase tracking-[0.3em] text-rose-deep/70 mb-3">Dirección</p>
+          <p class="font-display text-2xl text-wine leading-tight">{salon.direccion.calle}</p>
+          <p class="text-wine/70 mt-1">{salon.direccion.barrio} · {salon.direccion.cp} {salon.direccion.ciudad}</p>
+          <a
+            href={salon.redes.google}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 mt-4 text-sm text-rose hover:text-rose-deep transition-colors"
+          >
+            Ver en Google Maps →
+          </a>
+        </div>
+
+        <div class="rounded-3xl border border-rose-soft/30 bg-blush p-7 shadow-soft reveal-on-scroll">
+          <p class="text-xs uppercase tracking-[0.3em] text-rose-deep/70 mb-3">Horario</p>
+          <ul class="divide-y divide-rose-soft/30">
+            {Object.entries(salon.horario).map(([dia, horas]) => (
+              <li class="flex items-center justify-between py-1.5 text-sm">
+                <span class="text-wine/80">{dia}</span>
+                <span class={horas === 'Cerrado' ? 'text-rose-deep/60' : 'text-wine font-medium'}>{horas}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="rounded-3xl gradient-rose p-7 text-blush shadow-luxury reveal-on-scroll">
+          <p class="text-xs uppercase tracking-[0.3em] text-blush/80 mb-3">Contacto directo</p>
+          <a href={`tel:${salon.telefono.replace(/\s/g, '')}`} class="font-display text-2xl block hover:opacity-90">
+            {salon.telefonoDisplay}
+          </a>
+          <a
+            href={`https://wa.me/${salon.whatsapp}?text=Hola%2C%20quiero%20reservar%20una%20cita`}
+            target="_blank"
+            rel="noopener"
+            class="mt-4 btn-magnetic inline-flex items-center gap-2 rounded-full bg-blush text-rose-deep text-sm font-medium px-5 py-2.5 shadow-md"
+          >
+            Escribir por WhatsApp →
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- Leaflet (deferred load + dark filter) -->
+<script>
+  // Inject Leaflet CSS once
+  if (!document.getElementById('leaflet-css')) {
+    const link = document.createElement('link');
+    link.id = 'leaflet-css';
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+    link.crossOrigin = '';
+    document.head.appendChild(link);
+  }
+
+  let initialized = false;
+
+  const initMap = async () => {
+    if (initialized) return;
+    initialized = true;
+    const L = (await import('leaflet')).default;
+
+    const lat = 40.3506878;
+    const lng = -3.6895191;
+
+    const map = L.map('ak-map', {
+      center: [lat, lng],
+      zoom: 16,
+      zoomControl: false,
+      scrollWheelZoom: false,
+    });
+
+    const tiles = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19,
+      }
+    ).addTo(map);
+
+    // Apply rose-tinted filter via CSS to the tiles container
+    requestAnimationFrame(() => {
+      const pane = (tiles as any)._container as HTMLElement | undefined;
+      if (pane) {
+        pane.style.filter = 'hue-rotate(310deg) saturate(0.6) brightness(1.05) contrast(0.95)';
+      }
+    });
+
+    // Custom AK pin SVG
+    const pinHtml = `
+      <div style="position:relative;width:56px;height:72px;filter:drop-shadow(0 8px 18px rgba(233,30,99,.45));">
+        <svg viewBox="0 0 56 72" width="56" height="72" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FF6B8A"/>
+              <stop offset="60%" stop-color="#E91E63"/>
+              <stop offset="100%" stop-color="#B8174D"/>
+            </linearGradient>
+          </defs>
+          <path d="M28 0C12.5 0 0 12 0 27c0 19 28 45 28 45s28-26 28-45C56 12 43.5 0 28 0Z" fill="url(#pg)"/>
+          <circle cx="28" cy="26" r="14" fill="#FFF5F7"/>
+          <text x="28" y="32" font-family="Georgia, serif" font-style="italic" font-weight="800" font-size="18" fill="#B8174D" text-anchor="middle">AK</text>
+        </svg>
+      </div>
+    `;
+
+    const icon = L.divIcon({
+      html: pinHtml,
+      className: 'ak-pin',
+      iconSize: [56, 72],
+      iconAnchor: [28, 70],
+      popupAnchor: [0, -64],
+    });
+
+    L.marker([lat, lng], { icon })
+      .addTo(map)
+      .bindPopup(
+        `<strong style="font-family:Georgia,serif;font-style:italic;color:#B8174D">Ana Karina Luxury Beauty Salon</strong><br/>C. de Benita López, 9<br/>28021 Villaverde, Madrid`
+      );
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    // Click to re-enable wheel zoom
+    map.on('click', () => map.scrollWheelZoom.enable());
+
+    // Hide skeleton when first tile loads
+    tiles.on('load', () => {
+      const sk = document.getElementById('ak-map-skeleton');
+      if (sk) {
+        sk.style.opacity = '0';
+        sk.style.transition = 'opacity 400ms';
+        setTimeout(() => sk.remove(), 500);
+      }
+    });
+  };
+
+  // Lazy init when section enters viewport
+  const sec = document.getElementById('localizacion');
+  if (sec) {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            initMap();
+            obs.disconnect();
+          }
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    io.observe(sec);
+  }
+</script>
+
+<style is:global>
+  #ak-map { background: #FCE4EC; }
+  .leaflet-control-attribution { font-size: 10px !important; background: rgba(255,245,247,0.85) !important; color: #1B0E14 !important; }
+  .leaflet-control-attribution a { color: #B8174D !important; }
+  .leaflet-popup-content-wrapper { border-radius: 18px !important; padding: 4px 6px !important; background: #FFF5F7 !important; }
+  .leaflet-popup-tip { background: #FFF5F7 !important; }
+  .leaflet-control-zoom a {
+    background: #FFF5F7 !important;
+    color: #B8174D !important;
+    border-color: rgba(233,30,99,0.2) !important;
+  }
+  .ak-pin { background: transparent !important; border: 0 !important; }
+</style>

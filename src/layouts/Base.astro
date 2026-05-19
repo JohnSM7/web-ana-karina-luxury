@@ -1,0 +1,195 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { salon } from '../data/salon';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${salon.nombre} · Salón de Belleza en Villaverde, Madrid`,
+  description = `Peluquería, uñas, estética, cejas, pestañas y maquillaje en ${salon.direccion.barrio}, Madrid. 4.7★ con ${salon.totalResenas}+ reseñas. Reserva tu cita.`,
+  image = '/images/salon-01.jpg',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL(image, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BeautySalon',
+  '@id': canonical + '#beautysalon',
+  name: salon.nombre,
+  image: [ogImage],
+  url: canonical,
+  telephone: salon.telefono,
+  email: salon.email,
+  priceRange: '€€',
+  description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: salon.direccion.calle,
+    addressLocality: salon.direccion.ciudad,
+    addressRegion: 'Comunidad de Madrid',
+    postalCode: salon.direccion.cp,
+    addressCountry: 'ES',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: salon.coordenadas.lat,
+    longitude: salon.coordenadas.lng,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '10:00',
+      closes: '19:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '10:00',
+      closes: '18:00',
+    },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: salon.rating,
+    reviewCount: salon.totalResenas,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  sameAs: [
+    salon.redes.instagram,
+    salon.redes.tiktok,
+    salon.redes.facebook,
+    salon.redes.treatwell,
+    salon.redes.google,
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de belleza',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Peluquería' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Manicura y Pedicura' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de cejas' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Extensiones de pestañas' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tratamientos faciales' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Depilación' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Maquillaje' } },
+    ],
+  },
+};
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#E91E63" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F0710" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={salon.fundadora} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="geo.region" content="ES-MD" />
+    <meta name="geo.placename" content={`${salon.direccion.barrio}, ${salon.direccion.ciudad}`} />
+    <meta name="geo.position" content={`${salon.coordenadas.lat};${salon.coordenadas.lng}`} />
+    <meta name="ICBM" content={`${salon.coordenadas.lat}, ${salon.coordenadas.lng}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="business.business" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={salon.nombre} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content={canonical} />
+    <meta property="business:contact_data:street_address" content={salon.direccion.calle} />
+    <meta property="business:contact_data:locality" content={salon.direccion.ciudad} />
+    <meta property="business:contact_data:postal_code" content={salon.direccion.cp} />
+    <meta property="business:contact_data:country_name" content={salon.direccion.pais} />
+    <meta property="business:contact_data:phone_number" content={salon.telefono} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700&family=Italianno&display=swap"
+    />
+
+    <!-- Leaflet CSS (deferred load via component) -->
+    <link
+      rel="preconnect"
+      href="https://tile.openstreetmap.org"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/logo-ana-karina.jpg" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <ClientRouter />
+  </head>
+  <body class="relative">
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-rose focus:text-blush focus:px-4 focus:py-2 focus:rounded-full">
+      Saltar al contenido
+    </a>
+
+    <slot />
+
+    <!-- Intersection Observer for .reveal-on-scroll fallback -->
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      );
+      document.querySelectorAll('.reveal-on-scroll').forEach((el) => io.observe(el));
+
+      // Magnetic buttons
+      const mag = (el: HTMLElement) => {
+        const r = el.getBoundingClientRect();
+        return (e: PointerEvent) => {
+          const x = e.clientX - r.left - r.width / 2;
+          const y = e.clientY - r.top - r.height / 2;
+          el.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+        };
+      };
+      document.querySelectorAll<HTMLElement>('.btn-magnetic').forEach((el) => {
+        let handler: ((e: PointerEvent) => void) | null = null;
+        el.addEventListener('pointerenter', () => {
+          handler = mag(el);
+          el.addEventListener('pointermove', handler);
+        });
+        el.addEventListener('pointerleave', () => {
+          if (handler) el.removeEventListener('pointermove', handler);
+          el.style.transform = '';
+        });
+      });
+    </script>
+  </body>
+</html>

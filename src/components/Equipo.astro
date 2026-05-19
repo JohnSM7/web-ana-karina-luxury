@@ -1,0 +1,48 @@
+---
+const team = [
+  { iniciales: 'AK', nombre: 'Ana Karina', rol: 'Fundadora · Estilista', desc: 'Más de una década dándole vida al cabello. Su filosofía: nadie sale de aquí sin sentirse renovada.', accent: 'rose' },
+  { iniciales: 'Yn', nombre: 'Yen', rol: 'Tratamientos · Color', desc: '"Iba con el pelo fatal y salí con el pelo lleno de vida." — Reseña real de cliente sobre Yen.', accent: 'gold' },
+  { iniciales: 'Bb', nombre: 'Bibi', rol: 'Corte · Estilismo', desc: 'Su precisión técnica y oído fino son legendarios entre las clientas habituales.', accent: 'rose' },
+];
+---
+<section class="relative py-20 sm:py-24 lg:py-32 bg-gradient-to-b from-blush via-pearl to-blush overflow-hidden">
+  <!-- Decorative giant script -->
+  <span class="absolute top-8 sm:top-12 right-0 font-script text-[clamp(5rem,20vw,18rem)] leading-none text-rose-soft/20 select-none pointer-events-none whitespace-nowrap overflow-hidden" aria-hidden="true">el equipo</span>
+
+  <div class="relative mx-auto max-w-7xl px-6">
+    <header class="max-w-2xl mb-16 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-[0.4em] text-rose-deep/70 mb-4">— Nuestro equipo</p>
+      <h2 class="font-display text-balance text-[clamp(2.25rem,4.5vw,4rem)] leading-[1.05] tracking-tight text-wine">
+        Manos que <span class="italic font-light gradient-text-luxe">cuidan</span>,
+        <br />
+        ojos que <span class="font-script text-[1.4em] text-rose">ven</span>.
+      </h2>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {team.map((m, i) => (
+        <article
+          class="group relative rounded-3xl border border-rose-soft/30 bg-blush p-8 hover:shadow-luxury transition-all duration-500 reveal-on-scroll hover:-translate-y-1"
+          style={`transition-delay: ${i * 100}ms`}
+        >
+          <!-- Initials medallion -->
+          <div class={`relative w-20 h-20 rounded-full grid place-items-center mb-6 ${m.accent === 'gold' ? 'gradient-gold' : 'gradient-rose'} text-blush shadow-luxury group-hover:scale-110 transition-transform duration-500`}>
+            <span class="font-display italic font-bold text-2xl">{m.iniciales}</span>
+            <!-- Rotating ring -->
+            <span class="absolute -inset-2 rounded-full border border-dashed border-rose/30 group-hover:rotate-180 transition-transform duration-1000"></span>
+          </div>
+
+          <h3 class="font-display text-2xl text-wine tracking-tight">{m.nombre}</h3>
+          <p class="text-[11px] uppercase tracking-[0.25em] text-rose-deep/70 mt-1 mb-4">{m.rol}</p>
+          <p class="text-wine/70 text-sm leading-relaxed text-pretty">{m.desc}</p>
+
+          <!-- Bottom flourish -->
+          <div class="mt-6 flex items-center gap-2">
+            <span class="w-6 h-px bg-gold"></span>
+            <span class="font-script text-rose text-lg">desde el corazón</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

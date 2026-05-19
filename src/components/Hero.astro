@@ -1,0 +1,177 @@
+---
+import { Image } from 'astro:assets';
+import { salon } from '../data/salon';
+import salonHero from '../../public/images/salon-02.jpg';
+import salonHero2 from '../../public/images/salon-03.jpg';
+---
+<section id="top" class="relative min-h-[100svh] overflow-hidden bg-blush flex flex-col">
+  <!-- Ambient gradient orbs -->
+  <div class="absolute top-1/4 -left-32 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] rounded-full bg-rose-soft/40 blur-[140px] -z-10"></div>
+  <div class="absolute bottom-1/4 -right-32 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gold/25 blur-[160px] -z-10"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] rounded-full bg-coral/10 blur-[200px] -z-10"></div>
+
+  <!-- Subtle grain -->
+  <div class="absolute inset-0 grain pointer-events-none -z-10"></div>
+
+  <div class="relative flex-1 mx-auto w-full max-w-7xl px-5 sm:px-6 pt-24 sm:pt-28 lg:pt-28 pb-8 sm:pb-12 flex flex-col">
+    <!-- Top bar: live status -->
+    <div class="flex justify-between items-center gap-3 reveal-on-scroll">
+      <div class="inline-flex items-center gap-2 rounded-full bg-blush/90 backdrop-blur-md border border-rose-soft/40 px-3 py-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.22em] text-wine shadow-sm">
+        <span class="relative flex h-2 w-2">
+          <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose opacity-75"></span>
+          <span id="status-dot" class="relative inline-flex rounded-full h-2 w-2 bg-rose"></span>
+        </span>
+        <span id="status-text">Abierto · 10:00 – 19:00</span>
+      </div>
+      <div class="hidden sm:inline-flex items-center gap-2 sm:gap-3 rounded-full bg-blush/80 backdrop-blur-md border border-rose-soft/30 px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs text-wine/80">
+        <div class="flex gap-0.5 text-gold">
+          {Array.from({length: 5}).map(() => (
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2Z"/></svg>
+          ))}
+        </div>
+        <span class="font-medium">{salon.rating}</span>
+        <span class="opacity-50">·</span>
+        <span class="hidden md:inline">{salon.totalResenas}+ reseñas Google</span>
+        <span class="md:hidden">{salon.totalResenas}+</span>
+      </div>
+    </div>
+
+    <!-- Editorial split layout -->
+    <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center mt-6 md:mt-4 lg:mt-0">
+      <!-- LEFT — Typography column -->
+      <div class="md:col-span-6 lg:col-span-7 relative z-10 text-center md:text-left order-2 md:order-1">
+        <p class="hidden md:block text-[10px] lg:text-[11px] uppercase tracking-[0.4em] lg:tracking-[0.45em] text-rose-deep/70 mb-4 lg:mb-6">
+          <span class="font-script normal-case text-xl lg:text-2xl text-rose">desde 2018</span>
+          &nbsp;·&nbsp; Villaverde · Madrid
+        </p>
+
+        <h1 class="font-display text-balance leading-[0.88] tracking-[-0.035em] text-wine">
+          <span class="block text-[clamp(1.75rem,5.5vw,4.5rem)] font-extralight italic text-wine/85">La belleza</span>
+          <span class="block text-[clamp(3rem,11vw,9rem)] font-black gradient-text-luxe -mt-0.5 md:-mt-1" style="font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;">
+            que se
+          </span>
+          <span class="block text-[clamp(3rem,11vw,9rem)] font-black gradient-text-luxe -mt-2 md:-mt-3 lg:-mt-5" style="font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;">
+            siente.
+          </span>
+          <span class="block text-[clamp(1.15rem,3.2vw,2.5rem)] font-light italic mt-2 md:mt-4 text-wine/75">
+            Como en <span class="font-script text-[1.6em] text-rose not-italic">casa</span>.
+          </span>
+        </h1>
+
+        <p class="mt-5 md:mt-8 max-w-md mx-auto md:mx-0 text-wine/65 text-sm sm:text-base lg:text-lg leading-relaxed text-pretty">
+          Peluquería · uñas · cejas · pestañas · facial · maquillaje. Un equipo que escucha, una atención que se nota.
+        </p>
+
+        <div class="mt-6 md:mt-8 flex flex-col xl:flex-row items-stretch xl:items-center md:items-start justify-center md:justify-start gap-3">
+          <a
+            href={`https://wa.me/${salon.whatsapp}?text=Hola%20Ana%20Karina%2C%20quiero%20reservar%20una%20cita`}
+            target="_blank"
+            rel="noopener"
+            class="btn-magnetic group inline-flex items-center justify-center gap-2 sm:gap-3 rounded-full gradient-rose text-blush px-6 sm:px-7 py-3.5 sm:py-4 font-medium shadow-luxury hover:shadow-2xl text-sm sm:text-base whitespace-nowrap"
+          >
+            Reservar por WhatsApp
+            <span class="grid place-items-center w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-blush/25 group-hover:translate-x-1 transition-transform text-sm">→</span>
+          </a>
+          <a
+            href={`tel:${salon.telefono.replace(/\s/g, '')}`}
+            class="btn-magnetic inline-flex items-center justify-center gap-2 rounded-full text-wine px-5 sm:px-6 py-3.5 sm:py-4 font-medium border border-wine/15 hover:border-rose hover:text-rose transition-colors text-sm sm:text-base bg-blush/50 backdrop-blur whitespace-nowrap"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/>
+            </svg>
+            {salon.telefonoDisplay}
+          </a>
+        </div>
+
+        <!-- Service ticker -->
+        <div class="hidden lg:flex mt-10 xl:mt-12 items-center gap-4 text-xs uppercase tracking-[0.3em] text-wine/40 overflow-hidden">
+          <span class="w-10 h-px bg-gold shrink-0"></span>
+          <div class="flex-1 overflow-hidden">
+            <div class="inline-flex whitespace-nowrap animate-[ticker_18s_linear_infinite]">
+              <span>Peluquería&nbsp;·&nbsp;Uñas&nbsp;·&nbsp;Cejas&nbsp;·&nbsp;Pestañas&nbsp;·&nbsp;Facial&nbsp;·&nbsp;Maquillaje&nbsp;·&nbsp;Depilación&nbsp;·&nbsp;</span>
+              <span aria-hidden="true">Peluquería&nbsp;·&nbsp;Uñas&nbsp;·&nbsp;Cejas&nbsp;·&nbsp;Pestañas&nbsp;·&nbsp;Facial&nbsp;·&nbsp;Maquillaje&nbsp;·&nbsp;Depilación&nbsp;·&nbsp;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — Photo collage with parallax tilt -->
+      <div class="md:col-span-6 lg:col-span-5 relative h-[280px] sm:h-[360px] md:h-[480px] lg:h-[600px] order-1 md:order-2 mx-auto md:mx-0 w-full max-w-md md:max-w-none">
+        <!-- Main photo card -->
+        <div class="absolute top-0 right-0 w-[72%] md:w-[78%] h-[72%] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-luxury border-[3px] md:border-4 border-blush rotate-[2deg] hover:rotate-0 transition-transform duration-700">
+          <Image
+            src={salonHero2}
+            alt="Salón principal de Ana Karina Luxury Beauty con sillones color crema y espejos plata"
+            class="w-full h-full object-cover"
+            widths={[360, 480, 720, 960]}
+            sizes="(max-width:768px) 85vw, (max-width:1024px) 45vw, 40vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-gold/10 pointer-events-none"></div>
+        </div>
+
+        <!-- Secondary photo card -->
+        <div class="absolute bottom-0 left-0 w-[54%] md:w-[58%] h-[54%] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-luxury border-[3px] md:border-4 border-blush -rotate-[4deg] hover:rotate-0 transition-transform duration-700">
+          <Image
+            src={salonHero}
+            alt="Mural floral con neón Nails en la sala de uñas y pestañas"
+            class="w-full h-full object-cover"
+            widths={[280, 360, 540]}
+            sizes="(max-width:768px) 55vw, (max-width:1024px) 30vw, 25vw"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Floating decorative chip -->
+        <div class="absolute top-[4%] left-[1%] inline-flex items-center gap-1.5 rounded-full gradient-rose text-blush text-[10px] md:text-xs font-medium px-3 md:px-4 py-1.5 md:py-2 shadow-luxury rotate-[-8deg]">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="m12 2 2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2Z"/>
+          </svg>
+          Top rated · {salon.direccion.barrio}
+        </div>
+
+        <!-- Bottom signature card -->
+        <div class="absolute bottom-[8%] right-[3%] rounded-xl md:rounded-2xl bg-blush/95 backdrop-blur-md border border-rose-soft/30 px-3 md:px-4 py-2 md:py-3 shadow-soft rotate-[3deg]">
+          <p class="font-script text-xl md:text-2xl text-rose-deep leading-none">Ana Karina</p>
+          <p class="text-[9px] md:text-[10px] uppercase tracking-[0.18em] md:tracking-[0.2em] text-wine/50 mt-0.5 md:mt-1">fundadora · estilista</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <a href="#manifesto" class="hidden md:flex mt-2 self-center group flex-col items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-wine/40 hover:text-rose transition-colors">
+      descubrir
+      <span class="w-px h-8 lg:h-10 bg-gradient-to-b from-wine/30 to-transparent group-hover:from-rose transition-all"></span>
+    </a>
+  </div>
+
+  <!-- Liquid bottom curve -->
+  <svg class="absolute bottom-0 left-0 right-0 w-full text-blush" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,30 C320,60 720,0 1440,30 L1440,60 L0,60 Z" fill="currentColor"/>
+  </svg>
+</section>
+
+<script>
+  // Live open-status check
+  const dot = document.getElementById('status-dot');
+  const ping = document.getElementById('status-ping');
+  const txt = document.getElementById('status-text');
+  const now = new Date();
+  const day = now.getDay(); // 0 = Sunday
+  const hour = now.getHours() + now.getMinutes() / 60;
+  let isOpen = false;
+  if (day === 0) {
+    isOpen = false;
+  } else if (day === 6) {
+    isOpen = hour >= 10 && hour < 18;
+  } else {
+    isOpen = hour >= 10 && hour < 19;
+  }
+  if (!isOpen) {
+    dot?.classList.remove('bg-rose');
+    dot?.classList.add('bg-wine/40');
+    ping?.classList.add('hidden');
+    if (txt) txt.textContent = day === 0 ? 'Cerrado · Domingo' : 'Cerrado · Abrimos a las 10:00';
+  }
+</script>
