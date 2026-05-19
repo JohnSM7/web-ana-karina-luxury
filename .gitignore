@@ -23,11 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Playwright y screenshots de auditoría
+# Playwright y screenshots de auditoría (en raíz del proyecto)
 .playwright-mcp/
-audit-*.jpeg
-v2-*.jpeg
-v3-*.jpeg
-v3b-*.jpeg
-resp-*.jpeg
-ak-hero.jpeg
+/*.jpeg
+/*.png
