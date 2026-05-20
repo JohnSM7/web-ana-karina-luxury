@@ -10,9 +10,9 @@ interface Props {
 }
 
 const {
-  title = `${salon.nombre} · Salón de Belleza en Villaverde, Madrid`,
-  description = `Peluquería, uñas, estética, cejas, pestañas y maquillaje en ${salon.direccion.barrio}, Madrid. ${salon.rating}★ con ${salon.totalResenas}+ reseñas. Reserva tu cita por WhatsApp.`,
-  image = '/og-image.jpg',
+  title = `${salon.nombre} | Belleza en Villaverde`,
+  description = `Peluquería, uñas, cejas, pestañas y estética. ${salon.rating} estrellas con ${salon.totalResenas}+ reseñas. Reserva por WhatsApp.`,
+  image = '/og-image-v2.jpg',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
